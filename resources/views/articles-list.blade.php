@@ -1,23 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Articles list</title>
-</head>
+@section('content')
+<div class="max-w-6xl mx-auto space-y-6">
 
-<body>
-    <h1>Articles list</h1>
-
-    @foreach ($articles as $article)
-    <div>
-        <h2>{{ $article->title }}</h2>
-        <p>{{ $article->content }}</p>
-        <p>Catégorie: {{ $article->category->name }}</p>
-        <p>Auteur: {{ $article->user->name }}</p>
-    </div>
+    <!-- Boucle sur les articles -->
+    @foreach($articles as $article)
+    <x-article-card :article="$article" />
     @endforeach
-</body>
 
-</html>
+</div>
+@endsection
