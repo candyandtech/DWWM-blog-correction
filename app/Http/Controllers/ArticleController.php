@@ -16,4 +16,13 @@ class ArticleController extends Controller {
             'articles' => $articles
         ]);
     }
+
+    public function adminIndex(): View {
+
+        $articles = Article::all();
+
+        return view('admin.articles-list', [
+            'articles' => $articles
+        ]);
+    }
 }
