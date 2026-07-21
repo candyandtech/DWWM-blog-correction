@@ -10,7 +10,7 @@ Route::get('/', function () {
 });
 
 Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
-// Route::get('/articles/{id}', [ArticleController::class, 'show'])->name('articles.show');
+Route::get('/articles/{article}', [ArticleController::class, 'show'])->name('articles.show');
 
 Route::get('/admin/categories', [CategoryController::class, 'adminIndex']);
 

@@ -12,7 +12,7 @@
             @endforeach
             @endif
         </div>
-        <span class="uppercase">{{ $article->created_at }}</span>
+        <span class="uppercase">{{ $article->published_at->translatedFormat('j M. Y') }}</span>
     </div>
 
     <!-- Zone centrale : Titre et Extrait -->
@@ -28,7 +28,7 @@
 
     <!-- Ligne inférieure : Lien d'action -->
     <div class="text-right">
-        <a href="#" class="text-sm font-medium text-black hover:underline inline-flex items-center gap-1 group">
+        <a href="{{ route('articles.show', $article) }}"" class=" text-sm font-medium text-black hover:underline inline-flex items-center gap-1 group">
             Lire <span class="inline-block transform group-hover:translate-x-1 transition-transform">&rarr;</span>
         </a>
     </div>
