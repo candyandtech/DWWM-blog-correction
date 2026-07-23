@@ -9,47 +9,52 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
-class ArticleController extends Controller {
-
+class ArticleController extends Controller
+{
     // Affiche la liste des articles
-    public function index(): View {
+    public function index(): View
+    {
         // On ne récupère que les articles au statut "PUBLISHED", ordonnés par date de création, 5 par page
         $articles = Article::where('status', '=', ArticleStatus::PUBLISHED->value, 'and')
             ->latest() // Équivalent à orderBy('created_at', 'desc')
             ->paginate(5); // Ajuste le nombre d'articles par page si besoin
 
-        return view('articles-list', compact('articles'));
+        return view('articles.index', compact('articles'));
     }
 
-    public function show(int $id) : View {
-        $article = Article::with(['category', ])->findOrFail($id);
+    public function show(int $id): View
+    {
+        $article = Article::with(['category'])->findOrFail($id);
 
-        return view('article-detail', [
-            'article' => $article
+        return view('articles.show', [
+            'article' => $article,
         ]);
     }
 
     // Affiche la liste des articles (admin)
-    public function adminIndex(): View {
+    public function adminIndex(): View
+    {
         $articles = Article::orderBy('created_at', 'desc')
             ->paginate(5);
 
-        return view('admin.articles-list', [
-            'articles' => $articles
+        return view('admin.articles.index', [
+            'articles' => $articles,
         ]);
     }
 
     // Formulaire de création
-    public function create() {
+    public function create()
+    {
         $categories = Category::all();
         // On passe un modèle vide pour harmoniser le template d'édition et de création
-        $article = new Article();
+        $article = new Article;
 
-        return view('articles-form', compact('categories', 'article'));
+        return view('admin.articles.form', compact('categories', 'article'));
     }
 
     // Traitement de la création
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
@@ -57,7 +62,7 @@ class ArticleController extends Controller {
             'status' => 'required|in:DRAFT,PUBLISHED',
         ]);
 
-        $article = new Article();
+        $article = new Article;
         $article->title = $validated['title'];
         $article->slug = Str::slug($validated['title']); // Génération automatique du slug
         $article->content = $validated['content'];
@@ -80,14 +85,16 @@ class ArticleController extends Controller {
     }
 
     // Formulaire d'édition (pré-rempli)
-    public function edit(Article $article) {
+    public function edit(Article $article)
+    {
         $categories = Category::all();
-        
-        return view('articles-form', compact('categories', 'article'));
+
+        return view('admin.articles.form', compact('categories', 'article'));
     }
 
     // Traitement de la modification
-    public function update(Request $request, Article $article) {
+    public function update(Request $request, Article $article)
+    {
 
         $validated = $request->validate([
             'title' => 'required|string|max:255',
@@ -118,7 +125,8 @@ class ArticleController extends Controller {
     }
 
     // Supprimer un article
-    public function destroy(Article $article) {
+    public function destroy(Article $article)
+    {
         $article->deleteOrFail();
 
         return redirect()->route('admin.articles.index')->with('success', 'L’article a été supprimé avec succès.');
