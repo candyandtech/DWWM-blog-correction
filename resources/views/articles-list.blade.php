@@ -8,5 +8,9 @@
     <x-article-card :article="$article" />
     @endforeach
 
+    <!-- Liens de Pagination -->
+    <div class="mt-8">
+        {{ $articles->links() }}
+    </div>
 </div>
 @endsection

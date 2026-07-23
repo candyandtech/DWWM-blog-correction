@@ -13,7 +13,11 @@ class ArticleController extends Controller {
 
     // Affiche la liste des articles
     public function index(): View {
-        $articles = Article::all();
+        // On ne récupère que les articles au statut "PUBLISHED", ordonnés par date de création, 5 par page
+        $articles = Article::where('status', '=', ArticleStatus::PUBLISHED->value, 'and')
+            ->latest() // Équivalent à orderBy('created_at', 'desc')
+            ->paginate(5); // Ajuste le nombre d'articles par page si besoin
+
         return view('articles-list', compact('articles'));
     }
 
@@ -27,8 +31,8 @@ class ArticleController extends Controller {
 
     // Affiche la liste des articles (admin)
     public function adminIndex(): View {
-
-        $articles = Article::all();
+        $articles = Article::orderBy('created_at', 'desc')
+            ->paginate(5);
 
         return view('admin.articles-list', [
             'articles' => $articles

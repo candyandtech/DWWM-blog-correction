@@ -48,7 +48,7 @@
                             {{ $article->status === App\Enums\ArticleStatus::PUBLISHED ? 'Publié' : 'Brouillon' }}
                         </span>
                     </td>
-                    <td class="py-4 px-6 text-sm text-gray-600">{{ $article->status === App\Enums\ArticleStatus::PUBLISHED ? $article->published_at : $article->created_at  }}</td>
+                    <td class="py-4 px-6 text-sm text-gray-600">{{ $article->status === App\Enums\ArticleStatus::PUBLISHED ? $article->published_at->format('d/m/Y') : $article->created_at->format('d/m/Y')  }}</td>
                     <td class="py-4 px-6 text-sm text-right space-x-3">
                         <!-- Icône Éditer (Crayon) -->
                         <a href="{{ route('admin.articles.edit', $article->id) }}" class="inline-block text-black hover:text-gray-600" title="Modifier">
@@ -78,6 +78,11 @@
                 @endforeach
             </tbody>
         </table>
+
+        <!-- Liens de Pagination -->
+        <div class="mt-8">
+            {{ $articles->links() }}
+        </div>
     </div>
 
 </div>
