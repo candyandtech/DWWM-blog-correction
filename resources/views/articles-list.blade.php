@@ -1,0 +1,16 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="max-w-6xl mx-auto space-y-6">
+
+    <!-- Boucle sur les articles -->
+    @foreach($articles as $article)
+    <x-article-card :article="$article" />
+    @endforeach
+
+    <!-- Liens de Pagination -->
+    <div class="mt-8">
+        {{ $articles->links() }}
+    </div>
+</div>
+@endsection

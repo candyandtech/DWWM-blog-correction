@@ -7,11 +7,11 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class CategoryController extends Controller {
-    public function index(): View {
+    public function adminIndex(): View {
 
         $categories = Category::all();
 
-        return view('categories-list', [
+        return view('admin.categories-list', [
             'categories' => $categories
         ]);
     }
