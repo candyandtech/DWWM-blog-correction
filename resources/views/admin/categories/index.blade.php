@@ -55,6 +55,11 @@
                 @endforelse
             </tbody>
         </table>
+
+        <!-- Liens de Pagination -->
+        <div class="mt-8">
+            {{ $categories->links() }}
+        </div>
     </div>
 
 </div>
