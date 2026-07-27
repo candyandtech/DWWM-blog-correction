@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 
 // --------------------------------------------------------------------------
@@ -22,4 +23,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('articles', AdminArticleController::class);
 
     Route::resource('categories', CategoryController::class);
+});
+
+Route::controller(RegisterController::class)->group(function () {
+    Route::get('/register', 'create')->name('register.create');
+    Route::post('/register', 'store')->name('register.store');
 });
