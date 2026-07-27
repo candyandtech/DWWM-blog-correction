@@ -19,10 +19,8 @@ class ArticleController extends Controller
         return view('articles.index', compact('articles'));
     }
 
-    public function show(int $id): View
+    public function show(Article $article): View
     {
-        $article = Article::with(['category'])->findOrFail($id);
-
         return view('articles.show', compact('article'));
     }
 }
