@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Article\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class CategoryController extends Controller
@@ -18,38 +20,32 @@ class CategoryController extends Controller
         return view('admin.categories.index', compact('categories'));
     }
 
-    // // Formulaire de création
-    // public function create()
-    // {
-    //     $categories = Category::all();
+    // Formulaire de création
+    public function create()
+    {
+        $categories = Category::all();
 
-    //     // On passe un modèle vide pour harmoniser le template d'édition et de création
-    //     $category = new Category;
+        // On passe un modèle vide pour harmoniser le template d'édition et de création
+        $category = new Category;
 
-    //     return view('admin.categories.form', compact('categories', 'category'));
-    // }
+        return view('admin.categories.form', compact('categories', 'category'));
+    }
 
-    // // Traitement de la création
-    // public function store(CategoryRequest $request): RedirectResponse
-    // {
-    //     $validated = $request->validated();
-    //     $status = categoriestatus::from($validated['status']);
+    // Traitement de la création
+    public function store(CategoryRequest $request): RedirectResponse
+    {
+        $validated = $request->validated();
 
-    //     $category = new Category($validated);
-    //     $category->status = $status;
+        $category = new Category($validated);
 
-    //     // Gestion de la date de publication selon le changement de statut
-    //     $category->published_at = ($status === categoriestatus::PUBLISHED) ? now() : null;
+        $category->slug = Str::slug($validated['name']); // Génération automatique du slug
 
-    //     $category->slug = Str::slug($validated['title']); // Génération automatique du slug
-    //     $category->user_id = 1; // TODO Récupère l'ID de l'admin connecté
+        $category->save();
 
-    //     $category->save();
-
-    //     return redirect()
-    //         ->route('admin.categories.index')
-    //         ->with('success', 'L’article a été créé avec succès.');
-    // }
+        return redirect()
+            ->route('admin.categories.index')
+            ->with('success', 'La catégorie a été créée avec succès.');
+    }
 
     // // Formulaire d'édition (pré-rempli)
     // public function edit(Category $category)

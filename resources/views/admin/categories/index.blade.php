@@ -6,8 +6,8 @@
     <!-- En-tête : Titre et Bouton -->
     <div class="flex justify-between items-center mb-8">
         <h1 class="text-3xl font-normal tracking-tight">Catégories</h1>
-        <a href="#" class="bg-black text-white text-sm font-medium px-4 py-2 rounded-sm hover:bg-gray-800 transition">
-            + Nouvelle catégorie
+        <a href="{{ route('admin.categories.create') }}" class="bg-black text-white text-sm font-medium px-4 py-2 rounded-sm hover:bg-gray-800 transition">
+        + Nouvelle catégorie
         </a>
     </div>
 
