@@ -47,40 +47,27 @@ class CategoryController extends Controller
             ->with('success', 'La catégorie a été créée avec succès.');
     }
 
-    // // Formulaire d'édition (pré-rempli)
-    // public function edit(Category $category)
-    // {
-    //     $categories = Category::all();
+    // Formulaire d'édition (pré-rempli)
+    public function edit(Category $category)
+    {
+        return view('admin.categories.form', compact('category', 'category'));
+    }
 
-    //     return view('admin.categories.form', compact('categories', 'category'));
-    // }
+    // Traitement de la modification
+    public function update(CategoryRequest $request, Category $category): RedirectResponse
+    {
 
-    // // Traitement de la modification
-    // public function update(CategoryRequest $request, Category $category): RedirectResponse
-    // {
+        $validated = $request->validated();
 
-    //     $validated = $request->validated();
-    //     $status = categoriestatus::from($validated['status']);
+        $category->fill($validated);
+        $category->slug = Str::slug($validated['name']);
 
-    //     $newStatus = categoriestatus::from($validated['status']);
+        $category->save();
 
-    //     // Gestion de la date de publication selon le changement de statut
-    //     if ($newStatus === categoriestatus::PUBLISHED && is_null($category->published_at)) {
-    //         $category->published_at = now();
-    //     } elseif ($newStatus === categoriestatus::DRAFT) {
-    //         $category->published_at = null;
-    //     }
-
-    //     $category->fill($validated);
-    //     $category->status = $status;
-    //     $category->slug = Str::slug($validated['title']);
-
-    //     $category->save();
-
-    //     return redirect()
-    //         ->route('admin.categories.index')
-    //         ->with('success', 'L’article a été modifié avec succès.');
-    // }
+        return redirect()
+            ->route('admin.categories.index')
+            ->with('success', 'La catégorie a été modifiée avec succès.');
+    }
 
     // // Supprimer un category
     // public function destroy(Category $category): RedirectResponse
