@@ -11,7 +11,7 @@ use Illuminate\View\View;
 
 class CategoryController extends Controller
 {
-    // Affiche la liste des categories (admin)
+    // Affiche la liste des catégories (admin)
     public function index(): View
     {
         $categories = Category::orderBy('name', 'asc')
@@ -69,13 +69,13 @@ class CategoryController extends Controller
             ->with('success', 'La catégorie a été modifiée avec succès.');
     }
 
-    // // Supprimer un category
-    // public function destroy(Category $category): RedirectResponse
-    // {
-    //     $category->deleteOrFail();
+    // Supprimer une catégorie
+    public function destroy(Category $category): RedirectResponse
+    {
+        $category->deleteOrFail();
 
-    //     return redirect()
-    //         ->route('admin.categories.index')
-    //         ->with('success', 'L’article a été supprimé avec succès.');
-    // }
+        return redirect()
+            ->route('admin.categories.index')
+            ->with('success', 'La catégorie a été supprimée avec succès.');
+    }
 }
